@@ -1,0 +1,32 @@
+.project {
+    display:flex;
+    justify-content: center;
+}
+
+.project form {
+    width: 500px;
+    margin-top:100px;
+}
+
+.project form [type="submit"] {
+    float:right;
+}
+
+p.message {
+    padding : 0.6em;
+    border : 1px solid var(--color-bg-light);
+    border-radius: 0.25em;
+}
+
+p.error {
+    color: red;
+    border-color: red;
+}
+
+p.success {
+    color: forestgreen;
+    border-color: forestgreen;
+}
+
+
+

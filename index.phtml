@@ -1,0 +1,73 @@
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Newsletter</title>
+    <meta name="description" content="Module JS1 - Exercice Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link href="css/lib/normalize.css" rel="stylesheet">
+    <link href="css/lib/layout.css" rel="stylesheet">
+    <link href="css/lib/theme.css" rel="stylesheet">
+    <link href="css/newsletter.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="banner">
+        <a class="banner-link" href="index.php">
+            <strong class="banner-title">Abonnez-vous à notre newsletter ! </strong>
+            <small>C'est gratuit !</small>
+        </a>
+    </header>
+    <main class="project">
+        <form id="subscribe-form" action="index.php" method="POST">
+
+            <?php if (isset($success)) : ?>
+                <p class="message success"><?= $success; ?></p>
+            <?php endif; ?>
+            <fieldset>
+                <legend>Abonnez-vous à la newsletter !</legend>
+                <div class="field-list">
+                    <label for="email">Adresse email</label>
+                    <input type="email" name="email" id="email" value="<?= $email ?>">
+                    <?php if (isset($errors['email'])) : ?>
+                        <p class="message error"><?= $errors['email']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="field-list">
+                    <label for="firstname">Prénom</label>
+                    <input type="text" name="firstname" id="prenom" value="<?= $firstname ?>">
+                    <?php if (isset($errors['firstname'])) : ?>
+                        <p class="message error"><?= $errors['firstname']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="field-list">
+                    <label for="lastname">Nom</label>
+                    <input type="text" name="lastname" id="nom" value="<?= $lastname ?>">
+                    <?php if (isset($errors['lastname'])) : ?>
+                        <p class="message error"><?= $errors['lastname']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="field-list">
+                    <label for="origine">Comment avez-vous connu notre site ?</label>
+                    <select name="origine" id="origine">
+                        <?php foreach ($origines as $origine) : ?>
+                            <option value="<?= $origine['id']; ?>"><?= $origine['origin_label']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <input type="submit" value="Valider" class="btn">
+            </fieldset>
+        </form>
+    </main>
+
+    <footer id="mentions" class="mentions">
+        <p><strong> &copy; Olivier Meunier</strong>
+    </footer>
+
+
+</body>
+
+</html>

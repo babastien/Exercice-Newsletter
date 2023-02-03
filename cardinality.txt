@@ -1,0 +1,3 @@
+Fichier texte expliquant la cardinalité de la relation entre les tables des abonnés et des origines
+
+table subscribers -> origin : 1-1;
