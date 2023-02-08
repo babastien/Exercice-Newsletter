@@ -1,5 +1,22 @@
 <?php
 
+// Démarre et restaure une session
+session_start();
+// Cela permet avec les 2 prochains if d'éviter le renvoi de formulaire lorsqu'on rafraîchit la...
+// ...page après soumission du formulaire contrairement à "header('Location : index.php');" qui...
+// ...fonctionne également mais ne permet pas d'afficher le message de succès après la soumission
+
+if (!empty($_POST)) {
+	$_SESSION["formulaire_envoye"] = $_POST;
+	header("Location: ".$_SERVER["PHP_SELF"]);
+	exit;
+}
+
+if (isset($_SESSION["formulaire_envoye"])) {
+	$_POST = $_SESSION["formulaire_envoye"];
+	unset($_SESSION["formulaire_envoye"]);
+}
+
 // Inclusion des dépendances
 require 'config.php';
 require 'functions.php';
@@ -18,6 +35,14 @@ if (!empty($_POST)) {
     $email = trim($_POST['email']);
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
+
+    // On traite les données pour les stocker au bon format
+    $firstname = strtolower($firstname);
+    $firstname = ucwords($firstname, " -");
+    $lastname = strtolower($lastname);
+    $lastname = ucwords($lastname, " -");
+    $email = strtolower($email);
+    $email = str_replace(" ", "", $email);
 
     // On récupère l'origine
     $origin = $_POST['origin'];
@@ -40,9 +65,9 @@ if (!empty($_POST)) {
         addInterests($interest, $last_id);
         // Message de succès
         $success  = "Inscription réussie";
-        
-        header('Location: index.php');
-        exit();
+
+        // header('Location: index.php');
+        // exit();
     }
 }
 

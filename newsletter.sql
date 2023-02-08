@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 08 fév. 2023 à 12:20
+-- Généré le : mer. 08 fév. 2023 à 13:58
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -113,6 +113,7 @@ ALTER TABLE `origin`
 --
 ALTER TABLE `subscribers`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `fk_origin` (`origin_id`),
   ADD KEY `fk_interest` (`interest_id`);
 

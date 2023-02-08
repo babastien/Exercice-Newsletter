@@ -62,15 +62,15 @@ while ($row = fgetcsv($file)) {
     $email = strtolower($email);
     $email = str_replace(" ", "", $email);
 
-    //  * On vérifie que l'email n'existe pas déjà dans la base de donnée à l'aide de la fonction éponyme
+    //  * On vérifie que l'email n'existe pas déjà dans la BDD à l'aide de la fonction éponyme
     if(verifyEmail($email) != true) {
 
-        //  * Si non, on enregistre l'abonné dans la base de données en exécutant la requête préparée plus haut
+        //  * Si non, on enregistre l'abonné dans la BDD en exécutant la requête préparée plus haut
         $pdoStatement->execute([$firstname, $lastname, $email, $created_on]);
 
     } else {
         //  * Si l'email existe déjà, on le notifie
-        echo "L'email $email est déjà dans la base de donnée\n";
+        echo "L'email $email est déjà dans la base de données\n";
     } 
 }
 

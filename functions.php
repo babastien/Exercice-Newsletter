@@ -1,6 +1,6 @@
 <?php
 
-/// * Connecte à la BDD * ///
+/// * Connecte à la base de données * ///
 function databaseConnexion() {
 
     // Construction du Data Source Name
@@ -21,7 +21,7 @@ function databaseConnexion() {
 
 
 /// * Vérifie que le formulaire est correctement rempli * ///
-function validForm(string $email, string $firstname, string $lastname, $origin, $interest) {
+function validForm(string $email, string $firstname, string $lastname, int $origin, array $interest) {
 
     $pdo = databaseConnexion();
 
