@@ -21,7 +21,7 @@ function databaseConnexion() {
 
 
 /// * Vérifie que le formulaire est correctement rempli * ///
-function validForm(string $email, string $firstname, string $lastname, int $origin, array $interest) {
+function validForm(string $email, string $firstname, string $lastname, $origin, $interest) {
 
     $pdo = databaseConnexion();
 
@@ -105,7 +105,7 @@ function getAllInterests() {
 
 
 /// * Ajoute un abonné dans la BDD * ///
-function addSubscriber(string $email, string $firstname, string $lastname, int $origin) {
+function addSubscriber(string $email, string $firstname, string $lastname, $origin) {
 
     // Connexion à la BDD
     $pdo = databaseConnexion();
@@ -125,7 +125,7 @@ function addSubscriber(string $email, string $firstname, string $lastname, int $
 }
 
 
-///  * Ajoute les intérêts sélectionnés dans la table de liaison de la BDD * ///
+/// * Ajoute les intérêts sélectionnés dans la table de liaison de la BDD * ///
 function addInterests(array $interest, int $last_id) {
 
     // Connexion à la BDD
