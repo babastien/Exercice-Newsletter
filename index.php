@@ -39,9 +39,9 @@ if (!empty($_POST)) {
         // Puis ajout de ses intérêts dans la BDD
         addInterests($interest, $last_id);
         // Message de succès
-        $success  = 'Inscription réussie';
+        $success  = "Inscription réussie";
         
-        header("Location: index.php");
+        header('Location: index.php');
         exit();
     }
 }

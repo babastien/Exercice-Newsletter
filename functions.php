@@ -1,6 +1,6 @@
 <?php
 
-// * Connecte à la BDD * //
+/// * Connecte à la BDD * ///
 function databaseConnexion() {
 
     // Construction du Data Source Name
@@ -20,7 +20,7 @@ function databaseConnexion() {
 }
 
 
-// * Vérifie que le formulaire est correctement rempli * //
+/// * Vérifie que le formulaire est correctement rempli * ///
 function validForm(string $email, string $firstname, string $lastname, $origin, $interest) {
 
     $pdo = databaseConnexion();
@@ -53,7 +53,7 @@ function validForm(string $email, string $firstname, string $lastname, $origin, 
 }
 
 
-// * Vérifie si l'email existe déjà dans la BDD * //
+/// * Vérifie si l'email existe déjà dans la BDD * ///
 function verifyEmail(string $email) {
 
     // Connexion à la BDD
@@ -72,7 +72,7 @@ function verifyEmail(string $email) {
 }
 
 
-// * Récupère tous les labels de la table origins * //
+/// * Récupère tous les labels de la table origins * ///
 function getAllOrigins() {
 
     // Connexion à la BDD
@@ -88,7 +88,7 @@ function getAllOrigins() {
 }
 
 
-// * Récupère tous les labels de la table interests * //
+/// * Récupère tous les labels de la table interests * ///
 function getAllInterests() {
 
     // Connexion à la BDD
@@ -104,13 +104,13 @@ function getAllInterests() {
 }
 
 
-// * Ajoute un abonné dans la BDD * //
+/// * Ajoute un abonné dans la BDD * ///
 function addSubscriber(string $email, string $firstname, string $lastname, int $origin) {
 
     // Connexion à la BDD
     $pdo = databaseConnexion();
 
-    // Insertion des données du nouvel abonné
+    // Ajout des données du nouvel abonné
     $sql = 'INSERT INTO subscribers
             (email, firstname, lastname, origin_id, created_on) 
             VALUES (?,?,?,?, NOW())';
@@ -122,11 +122,10 @@ function addSubscriber(string $email, string $firstname, string $lastname, int $
     $last_id = $pdo->lastInsertId();
 
     return $last_id;
-
 }
 
 
-//  * Ajoute les intérêts sélectionnés dans la table de liaison de la BDD * //
+///  * Ajoute les intérêts sélectionnés dans la table de liaison de la BDD * ///
 function addInterests(array $interest, int $last_id) {
 
     // Connexion à la BDD
@@ -134,7 +133,7 @@ function addInterests(array $interest, int $last_id) {
 
     foreach($interest as $interest_checked) {
 
-        // Insertion des intérêts à l'aide de la variable $last_id
+        // Ajout des intérêts à l'aide de la variable $last_id
         $sql = 'INSERT INTO subscribers_interests (subscribers_id, interests_id)
                 VALUES (?, ?)';
 

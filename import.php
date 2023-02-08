@@ -1,6 +1,7 @@
 <?php
 
 require 'config.php';
+require 'functions.php';
 
 //  * On va récupérer les paramètres de la commande dans la variable prédéfinie $argv
 //  * $argv contient un tableau dont le premier élément est le nom du fichier PHP
@@ -15,7 +16,6 @@ require 'config.php';
 //  * Ici le seul paramètre est le nom du fichier CSV que je souhaite importer
 //  * On va donc le récupérer dans la 2ème case du tableau $argv
 $filename = $argv[1];
-
 
 //  * On vérifie que le fichier existe bien. S'il n'existe pas on affiche simplement un message d'erreur
 if (!file_exists($filename)) {
@@ -39,7 +39,6 @@ $pdoStatement = $pdo->prepare(
 //  * S'il n'y a plus de nouvelle ligne, fgetcsv() retourne false.
 while ($row = fgetcsv($file)) {
 
-    
     //  * $row représente une ligne du fichier CSV, les données sont récupérées dans un tableau
     //  * [0] cible la donnée avant la première virgule, [1] après la 1ère virgule, [2] après la 2ème, etc
     //  * La première colonne qui est [0] est le prénom de l'abonné
@@ -63,8 +62,16 @@ while ($row = fgetcsv($file)) {
     $email = strtolower($email);
     $email = str_replace(" ", "", $email);
 
-    //  * On enregistre ensuite les abonnés dans la base de données en exécutant la requête préparée plus haut
-    $pdoStatement->execute([$firstname, $lastname, $email, $created_on]);
+    //  * On vérifie que l'email n'existe pas déjà dans la base de donnée à l'aide de la fonction éponyme
+    if(verifyEmail($email) != true) {
+
+        //  * Si non, on enregistre l'abonné dans la base de données en exécutant la requête préparée plus haut
+        $pdoStatement->execute([$firstname, $lastname, $email, $created_on]);
+
+    } else {
+        //  * Si l'email existe déjà, on le notifie
+        echo "L'email $email est déjà dans la base de donnée\n";
+    } 
 }
 
-echo 'Import terminé!';
+echo "Import terminé!";
