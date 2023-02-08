@@ -1,10 +1,10 @@
 <?php
 
-
 // Inclusion des dépendances
 require 'config.php';
 require 'functions.php';
 
+// Initialisation des variables
 $errors = [];
 $success = null;
 $email = '';
@@ -20,38 +20,39 @@ if (!empty($_POST)) {
     $lastname = trim($_POST['lastname']);
 
     // On récupère l'origine
-    $origineSelectionnee = $_POST['origine'];
+    $origin = $_POST['origin'];
 
-    // Validation 
-    if (!$email) {
-        $errors['email'] = "Merci d'indiquer une adresse mail";
+    $interest = '';
+    // On vérifie si des intérêts ont été sélectionnés pour éviter de générer une erreur
+    if(isset($_POST['interest'])) {
+        // Si c'est le cas, on les récupère
+        $interest = $_POST['interest'];
     }
 
-    if (!$firstname) {
-        $errors['firstname'] = "Merci d'indiquer un prénom";
-    }
+    $errors = validForm($email, $firstname, $lastname, $origin, $interest);
 
-    if (!$lastname) {
-        $errors['lastname'] = "Merci d'indiquer un nom";
-    }
-
-    // Si tout est OK (pas d'erreur)
+    // Si le tableau d'erreur est vide...
     if (empty($errors)) {
-
-        // Ajout de l'email dans le fichier csv
-        addSubscriber($email, $firstname, $lastname, $origineSelectionnee);
-
+                
+        // Ajout du nouvel abonné dans la BDD...
+        $last_id = addSubscriber($email, $firstname, $lastname, $origin);
+        // Puis ajout de ses intérêts dans la BDD
+        addInterests($interest, $last_id);
         // Message de succès
-        $success  = 'Merci de votre inscription';
+        $success  = 'Inscription réussie';
+        
+        header("Location: index.php");
+        exit();
     }
 }
 
-//////////////////////////////////////////////////////
-// AFFICHAGE DU FORMULAIRE ///////////////////////////
-//////////////////////////////////////////////////////
+///////////////////////////////
+/// AFFICHAGE DU FORMULAIRE ///
+///////////////////////////////
 
-// Sélection de la liste des origines
-$origines = getAllOrigins();
+// Affichage des listes d'origines et d'intérêts
+$origins = getAllOrigins();
+$interests = getAllInterests();
 
 // Inclusion du template
 include 'index.phtml';

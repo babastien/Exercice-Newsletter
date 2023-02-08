@@ -1,3 +1,3 @@
-Fichier texte expliquant la cardinalité de la relation entre les tables des abonnés et des origines
-
-table subscribers -> origin : 1-1;
+La cardinalité des tables :
+- 1 abonné peut avoir 1 origine mais 1 origine peut appartenir à plusieurs abonnés : 1-N
+- 1 abonné peut avoir plusieurs intérêts et un intérêt peut appartenir à plusieurs abonnés : N-N

@@ -51,12 +51,32 @@
                     <?php endif; ?>
                 </div>
                 <div class="field-list">
-                    <label for="origine">Comment avez-vous connu notre site ?</label>
-                    <select name="origine" id="origine">
-                        <?php foreach ($origines as $origine) : ?>
-                            <option value="<?= $origine['id']; ?>"><?= $origine['origin_label']; ?></option>
+                    <label for="origin">Comment avez-vous connu notre site ?</label>
+                    <select name="origin" id="origin">
+                        <option value="" hidden></option>
+                        <!-- On boucle les origines qui se trouve dans la BDD pour les afficher -->
+                        <?php foreach ($origins as $origin) : ?>
+                            <option value="<?= $origin['id']; ?>"><?= $origin['origin_label']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <!-- Si aucune origine n'est sélectionnée, on affiche un message d'erreur -->
+                    <?php if (isset($errors['origin'])) : ?>
+                        <p class="message error"><?= $errors['origin']; ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="field-list">
+                    <label>Quels sont vos centres d'intérêts ?</label>
+                    <br>
+                    <!-- On boucle les intérêts qui se trouve dans la BDD pour les afficher -->
+                    <?php foreach ($interests as $interest) : ?>
+                        <input type="checkbox" name="interest[]" id="<?= $interest['id']; ?>" value="<?= $interest['id']; ?>">
+                        <label for="<?= $interest['id']; ?>"><?= $interest['interest_label']; ?></label>
+                        <br>
+                    <?php endforeach; ?>
+                    <!-- Si aucun intérêt n'est sélectionné, on affiche un message d'erreur -->
+                    <?php if (isset($errors['interest'])) : ?>
+                        <p class="message error"><?= $errors['interest']; ?></p>
+                    <?php endif; ?>
                 </div>
                 <input type="submit" value="Valider" class="btn">
             </fieldset>
@@ -66,7 +86,6 @@
     <footer id="mentions" class="mentions">
         <p><strong> &copy; Olivier Meunier</strong>
     </footer>
-
 
 </body>
 
