@@ -59,7 +59,7 @@ if (!empty($_POST)) {
     // Si le tableau d'erreur est vide...
     if (empty($errors)) {
                 
-        // Ajout du nouvel abonné dans la BDD...
+        // Ajout du nouvel abonné dans la BDD
         $last_id = addSubscriber($email, $firstname, $lastname, $origin);
         // Puis ajout de ses intérêts dans la BDD
         addInterests($interest, $last_id);
@@ -75,9 +75,9 @@ if (!empty($_POST)) {
 /// AFFICHAGE DU FORMULAIRE ///
 ///////////////////////////////
 
-// Affichage des listes d'origines et d'intérêts
-$origins = getAllOrigins();
-$interests = getAllInterests();
+// Affichage des listes d'origines et d'intérêts contenus dans la BDD
+$originsFromBDD = getAllOrigins();
+$interestsFromBDD = getAllInterests();
 
 // Inclusion du template
 include 'index.phtml';

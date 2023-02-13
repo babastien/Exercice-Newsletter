@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 08 fév. 2023 à 13:58
+-- Généré le : lun. 13 fév. 2023 à 13:05
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -77,8 +77,7 @@ CREATE TABLE `subscribers` (
   `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `origin_id` int DEFAULT NULL,
-  `interest_id` int DEFAULT NULL
+  `origin_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -114,8 +113,7 @@ ALTER TABLE `origin`
 ALTER TABLE `subscribers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `fk_origin` (`origin_id`),
-  ADD KEY `fk_interest` (`interest_id`);
+  ADD KEY `fk_origin` (`origin_id`);
 
 --
 -- Index pour la table `subscribers_interests`
@@ -144,7 +142,7 @@ ALTER TABLE `origin`
 -- AUTO_INCREMENT pour la table `subscribers`
 --
 ALTER TABLE `subscribers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Contraintes pour les tables déchargées
@@ -154,7 +152,6 @@ ALTER TABLE `subscribers`
 -- Contraintes pour la table `subscribers`
 --
 ALTER TABLE `subscribers`
-  ADD CONSTRAINT `fk_interest` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `fk_origin` FOREIGN KEY (`origin_id`) REFERENCES `origin` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
