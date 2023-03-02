@@ -26,13 +26,11 @@ if (!file_exists($filename)) {
 //  * Si on arrive là c'est que le fichier existe bien, on va l'ouvrir en lecture grâce à la fonction fopen()
 $file = fopen($filename, "r");
 
-//  * On se connecte à la base de données avec PDO et on prépare la requête d'insertion
-$pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASSWORD);
-$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//  * Connexion à la BDD
+$pdo = databaseConnexion();
 
 $pdoStatement = $pdo->prepare(
-    'INSERT INTO subscribers (firstname, lastname, email, created_on) VALUES (?,?,?,?)'
+    'INSERT INTO subscribers (firstname, lastname, email, created_on) VALUES (?,?,?, NOW())'
 );
 
 //  * Ensuite on va lire chaque ligne du fichier CSV avec la fonction fgetcsv() tant qu'il y a des lignes à lire
@@ -48,10 +46,6 @@ while ($row = fgetcsv($file)) {
     $lastname = $row[1];
     $email = $row[2];
 
-    //  * On applique la classe DateTime() et le paramètre format()
-    $created_on = new DateTime();
-    $created_on = $created_on->format("Y-m-d H:i:s");
-
     //  * Traitement des données : 
     //  * - On formate les prénoms et noms en minuscule puis on applique des majuscules aux initiales
     //  * - On formate les emails en minuscule et on supprime les espaces si il y en a
@@ -66,7 +60,7 @@ while ($row = fgetcsv($file)) {
     if(verifyEmail($email) != true) {
 
         //  * Si non, on enregistre l'abonné dans la BDD en exécutant la requête préparée plus haut
-        $pdoStatement->execute([$firstname, $lastname, $email, $created_on]);
+        $pdoStatement->execute([$firstname, $lastname, $email]);
 
     } else {
         //  * Si l'email existe déjà, on le notifie
