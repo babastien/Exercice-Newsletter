@@ -56,7 +56,7 @@
                         <option value="" hidden></option>
                         <!-- On boucle les origines qui se trouve dans la BDD pour les afficher -->
                         <?php foreach ($originsFromBDD as $originFromBDD) : ?>
-                            <option value="<?= $originFromBDD['id']; ?>" <?php if(isset($origin) AND $origin == $originFromBDD['id']) { echo "selected"; }?>><?= $originFromBDD['origin_label']; ?></option>
+                            <option value="<?= $originFromBDD->getId(); ?>" <?php if(isset($origin) AND $origin == $originFromBDD->getId()) { echo "selected"; }?>><?= $originFromBDD->getOriginLabel(); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <!-- Si aucune origine n'est sélectionnée, on affiche un message d'erreur -->
@@ -69,8 +69,8 @@
                     <br>
                     <!-- On boucle les intérêts qui se trouve dans la BDD pour les afficher -->
                     <?php foreach ($interestsFromBDD as $interestFromBDD) : ?>
-                        <input type="checkbox" name="interest[]" id="<?= $interestFromBDD['id']; ?>" value="<?= $interestFromBDD['id']; ?>" <?php if(isset($_POST['interest']) AND in_array($interestFromBDD['id'], $_POST['interest'])) { echo "checked"; }?>>
-                        <label for="<?= $interestFromBDD['id']; ?>"><?= $interestFromBDD['interest_label']; ?></label>
+                        <input type="checkbox" name="interest[]" id="<?= $interestFromBDD->getId(); ?>" value="<?= $interestFromBDD->getId(); ?>" <?php if(isset($_POST['interest']) AND in_array($interestFromBDD->getId(), $_POST['interest'])) { echo "checked"; }?>>
+                        <label for="<?= $interestFromBDD->getId(); ?>"><?= $interestFromBDD->getInterestLabel(); ?></label>
                         <br>
                     <?php endforeach; ?>
                     <!-- Si aucun intérêt n'est sélectionné, on affiche un message d'erreur -->

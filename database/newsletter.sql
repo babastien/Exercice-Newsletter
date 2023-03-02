@@ -29,14 +29,14 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `interests` (
   `id` int NOT NULL,
-  `interest_label` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `interestLabel` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `interests`
 --
 
-INSERT INTO `interests` (`id`, `interest_label`) VALUES
+INSERT INTO `interests` (`id`, `interestLabel`) VALUES
 (1, 'Peinture'),
 (2, 'Sculpture'),
 (3, 'Photographie'),
@@ -53,14 +53,14 @@ INSERT INTO `interests` (`id`, `interest_label`) VALUES
 
 CREATE TABLE `origin` (
   `id` int NOT NULL,
-  `origin_label` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `originLabel` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `origin`
 --
 
-INSERT INTO `origin` (`id`, `origin_label`) VALUES
+INSERT INTO `origin` (`id`, `originLabel`) VALUES
 (1, 'Un ami m’en a parlé'),
 (2, 'Recherche sur internet'),
 (3, 'Publicité dans un magazine');
@@ -73,11 +73,11 @@ INSERT INTO `origin` (`id`, `origin_label`) VALUES
 
 CREATE TABLE `subscribers` (
   `id` int NOT NULL,
-  `created_on` datetime NOT NULL,
+  `createdOn` datetime NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `origin_id` int DEFAULT NULL
+  `originId` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -113,7 +113,7 @@ ALTER TABLE `origin`
 ALTER TABLE `subscribers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `fk_origin` (`origin_id`);
+  ADD KEY `fk_origin` (`originId`);
 
 --
 -- Index pour la table `subscribers_interests`
@@ -152,7 +152,7 @@ ALTER TABLE `subscribers`
 -- Contraintes pour la table `subscribers`
 --
 ALTER TABLE `subscribers`
-  ADD CONSTRAINT `fk_origin` FOREIGN KEY (`origin_id`) REFERENCES `origin` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `fk_origin` FOREIGN KEY (`originId`) REFERENCES `origin` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `subscribers_interests`

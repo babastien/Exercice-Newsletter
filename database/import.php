@@ -1,7 +1,12 @@
 <?php
 
-require 'config.php';
-require 'functions.php';
+require '../vendor/autoload.php';
+require '../app/config.php';
+require '../lib/functions.php';
+
+use App\Model\SubscriberModel;
+
+$subscriberModel = new SubscriberModel;
 
 //  * On va récupérer les paramètres de la commande dans la variable prédéfinie $argv
 //  * $argv contient un tableau dont le premier élément est le nom du fichier PHP
@@ -25,13 +30,6 @@ if (!file_exists($filename)) {
 
 //  * Si on arrive là c'est que le fichier existe bien, on va l'ouvrir en lecture grâce à la fonction fopen()
 $file = fopen($filename, "r");
-
-//  * Connexion à la BDD
-$pdo = databaseConnexion();
-
-$pdoStatement = $pdo->prepare(
-    'INSERT INTO subscribers (firstname, lastname, email, created_on) VALUES (?,?,?, NOW())'
-);
 
 //  * Ensuite on va lire chaque ligne du fichier CSV avec la fonction fgetcsv() tant qu'il y a des lignes à lire
 //  * S'il n'y a plus de nouvelle ligne, fgetcsv() retourne false.
@@ -57,10 +55,10 @@ while ($row = fgetcsv($file)) {
     $email = str_replace(" ", "", $email);
 
     //  * On vérifie que l'email n'existe pas déjà dans la BDD à l'aide de la fonction éponyme
-    if(verifyEmail($email) != true) {
+    if($subscriberModel->verifyEmailExist($email) != true) {
 
         //  * Si non, on enregistre l'abonné dans la BDD en exécutant la requête préparée plus haut
-        $pdoStatement->execute([$firstname, $lastname, $email]);
+        $subscriberModel->addSubscriberFromCsv($firstname, $lastname, $email);
 
     } else {
         //  * Si l'email existe déjà, on le notifie

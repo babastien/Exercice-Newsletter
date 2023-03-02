@@ -1,25 +1,30 @@
 <?php
 
-// Démarre et restaure une session
-session_start();
-// Cela permet avec les 2 prochains if d'éviter le renvoi de formulaire lorsqu'on rafraîchit la...
-// ...page après soumission du formulaire contrairement à "header('Location : index.php');" qui...
-// ...fonctionne également mais ne permet pas d'afficher le message de succès après la soumission
+use App\Model\OriginModel;
+use App\Model\InterestModel;
+use App\Model\SubscriberModel;
 
+session_start();
+
+// Inclusion des dépendances
+require 'vendor/autoload.php';
+require 'app/config.php';
+require 'lib/functions.php';
+
+$originModel = new OriginModel();
+$interestModel = new InterestModel();
+$subscriberModel = new SubscriberModel();
+
+// Message flash
 if (!empty($_POST)) {
 	$_SESSION["formulaire_envoye"] = $_POST;
 	header("Location: ".$_SERVER["PHP_SELF"]);
 	exit;
 }
-
 if (isset($_SESSION["formulaire_envoye"])) {
 	$_POST = $_SESSION["formulaire_envoye"];
 	unset($_SESSION["formulaire_envoye"]);
 }
-
-// Inclusion des dépendances
-require 'config.php';
-require 'functions.php';
 
 // Initialisation des variables
 $errors = [];
@@ -60,9 +65,9 @@ if (!empty($_POST)) {
     if (empty($errors)) {
                 
         // Ajout du nouvel abonné dans la BDD
-        $last_id = addSubscriber($email, $firstname, $lastname, $origin);
+        $last_id = $subscriberModel->addSubscriber($email, $firstname, $lastname, $origin);
         // Puis ajout de ses intérêts dans la BDD
-        addInterests($interest, $last_id);
+        $interestModel->addInterests($interest, $last_id);
         // Message de succès
         $success  = "Inscription réussie";
 
@@ -76,8 +81,8 @@ if (!empty($_POST)) {
 ///////////////////////////////
 
 // Affichage des listes d'origines et d'intérêts contenus dans la BDD
-$originsFromBDD = getAllOrigins();
-$interestsFromBDD = getAllInterests();
+$originsFromBDD = $originModel->getAllOrigins();
+$interestsFromBDD = $interestModel->getAllInterests();
 
 // Inclusion du template
 include 'index.phtml';
