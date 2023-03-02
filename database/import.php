@@ -58,7 +58,7 @@ while ($row = fgetcsv($file)) {
     if($subscriberModel->verifyEmailExist($email) != true) {
 
         //  * Si non, on enregistre l'abonné dans la BDD en exécutant la requête préparée plus haut
-        $subscriberModel->addSubscriberFromCsv($firstname, $lastname, $email);
+        $subscriberModel->addSubscriber($firstname, $lastname, $email);
 
     } else {
         //  * Si l'email existe déjà, on le notifie

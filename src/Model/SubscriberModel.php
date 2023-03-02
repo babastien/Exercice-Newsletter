@@ -7,7 +7,7 @@ use App\Core\AbstractModel;
 class SubscriberModel extends AbstractModel {
 
     /// * Ajoute un abonné dans la BDD * ///
-    function addSubscriber(string $email, string $firstname, string $lastname, $origin) {
+    function addSubscriber(string $email, string $firstname, string $lastname, $origin = null) {
 
         $sql = 'INSERT INTO subscribers (email, firstname, lastname, originId, createdOn) 
                 VALUES (?,?,?,?, NOW())';
@@ -19,16 +19,6 @@ class SubscriberModel extends AbstractModel {
         $last_id = $this->db->getLastInsertId();
         
         return $last_id;
-    }
-
-    /// * Ajoute un abonné dans la BDD * ///
-    function addSubscriberFromCsv(string $email, string $firstname, string $lastname) {
-
-        $sql = 'INSERT INTO subscribers (email, firstname, lastname, createdOn) 
-                VALUES (?,?,?,?, NOW())';
-
-        // Ajout des données du nouvel abonné
-        $this->db->prepareAndExecute($sql, [$email, $firstname, $lastname]);
     }
 
     /// * Vérifie si l'email existe déjà dans la BDD * ///

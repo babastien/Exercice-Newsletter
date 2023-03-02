@@ -15,23 +15,18 @@ $originModel = new OriginModel();
 $interestModel = new InterestModel();
 $subscriberModel = new SubscriberModel();
 
-// Message flash
-if (!empty($_POST)) {
-	$_SESSION["formulaire_envoye"] = $_POST;
-	header("Location: ".$_SERVER["PHP_SELF"]);
-	exit;
-}
-if (isset($_SESSION["formulaire_envoye"])) {
-	$_POST = $_SESSION["formulaire_envoye"];
-	unset($_SESSION["formulaire_envoye"]);
-}
-
 // Initialisation des variables
 $errors = [];
 $success = null;
 $email = '';
 $firstname = '';
 $lastname = '';
+
+// Message flash
+if (array_key_exists('success', $_SESSION) && $_SESSION['success']) {
+    $success = $_SESSION['success'];
+    $_SESSION['success'] = null;
+}
 
 // Si le formulaire a été soumis...
 if (!empty($_POST)) {
@@ -68,11 +63,11 @@ if (!empty($_POST)) {
         $last_id = $subscriberModel->addSubscriber($email, $firstname, $lastname, $origin);
         // Puis ajout de ses intérêts dans la BDD
         $interestModel->addInterests($interest, $last_id);
-        // Message de succès
-        $success  = "Inscription réussie";
+        // On stocke un message de succès dans une session
+        $_SESSION['success'] = "Inscription réussie";
 
-        // header('Location: index.php');
-        // exit();
+        header('Location: index.php');
+        exit();
     }
 }
 
